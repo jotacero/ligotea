@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LigoteaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Fotos">
+          <Key>
+            <PropertyRef Name="IdFoto" />
+          </Key>
+          <Property Name="IdFoto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="URL" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Texto" Type="nvarchar" MaxLength="250" />
+          <Property Name="Orden" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mensajes">
+          <Key>
+            <PropertyRef Name="IdUsuarioEnvia" />
+            <PropertyRef Name="IdUsuarioRecibe" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="IdUsuarioEnvia" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioRecibe" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Texto" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Leido" Type="bit" Nullable="false" />
+          <Property Name="Borrado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nick" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Nacimiento" Type="date" Nullable="false" />
+          <Property Name="IdRegion" Type="int" />
+          <Property Name="IdLocalidad" Type="int" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="2000" />
+          <Property Name="FechaAlta" Type="datetime2" Precision="7" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="Genero" Type="bit" Nullable="false" />
+          <Property Name="Estado" Type="bit" />
+          <Property Name="CampoNuevo" Type="int" />
+        </EntityType>
+        <EntityType Name="Visitas">
+          <Key>
+            <PropertyRef Name="IdVisitado" />
+            <PropertyRef Name="IdVisitante" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="IdVisitado" Type="int" Nullable="false" />
+          <Property Name="IdVisitante" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Votaciones">
+          <Key>
+            <PropertyRef Name="IdVotado" />
+            <PropertyRef Name="IdVotante" />
+          </Key>
+          <Property Name="IdVotado" Type="int" Nullable="false" />
+          <Property Name="IdVotante" Type="int" Nullable="false" />
+          <Property Name="Puntuacion" Type="tinyint" Nullable="false" />
+          <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Fotos_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Fotos" Type="Self.Fotos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Fotos">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioEnvia">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Mensajes" Type="Self.Mensajes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Mensajes">
+              <PropertyRef Name="IdUsuarioEnvia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioRecibe">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Mensajes" Type="Self.Mensajes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Mensajes">
+              <PropertyRef Name="IdUsuarioRecibe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Votado">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Votaciones" Type="Self.Votaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Votaciones">
+              <PropertyRef Name="IdVotado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Votante">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Votaciones" Type="Self.Votaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Votaciones">
+              <PropertyRef Name="IdVotante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visitados_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Visitas" Type="Self.Visitas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Visitas">
+              <PropertyRef Name="IdVisitado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visitantes_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Visitas" Type="Self.Visitas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Visitas">
+              <PropertyRef Name="IdVisitante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LigoteaModelStoreContainer">
+          <EntitySet Name="Fotos" EntityType="Self.Fotos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mensajes" EntityType="Self.Mensajes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visitas" EntityType="Self.Visitas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Votaciones" EntityType="Self.Votaciones" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Fotos_Usuarios" Association="Self.FK_Fotos_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Fotos" EntitySet="Fotos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioEnvia" Association="Self.FK_UsuarioEnvia">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Mensajes" EntitySet="Mensajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioRecibe" Association="Self.FK_UsuarioRecibe">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Mensajes" EntitySet="Mensajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Votado" Association="Self.FK_Usuarios_Votado">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Votaciones" EntitySet="Votaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Votante" Association="Self.FK_Usuarios_Votante">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Votaciones" EntitySet="Votaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visitados_Usuarios" Association="Self.FK_Visitados_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Visitas" EntitySet="Visitas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visitantes_Usuarios" Association="Self.FK_Visitantes_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Visitas" EntitySet="Visitas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LigoteaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Foto">
+          <Key>
+            <PropertyRef Name="IdFoto" />
+          </Key>
+          <Property Name="IdFoto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="URL" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Texto" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Orden" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="LigoteaModel.FK_Fotos_Usuarios" FromRole="Foto" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Mensaje">
+          <Key>
+            <PropertyRef Name="IdUsuarioEnvia" />
+            <PropertyRef Name="IdUsuarioRecibe" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="IdUsuarioEnvia" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioRecibe" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Texto" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Leido" Type="Boolean" Nullable="false" />
+          <Property Name="Borrado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UsuarioEmisor" Relationship="LigoteaModel.FK_UsuarioEnvia" FromRole="Mensaje" ToRole="Usuario" />
+          <NavigationProperty Name="UsuarioReceptor" Relationship="LigoteaModel.FK_UsuarioRecibe" FromRole="Mensaje" ToRole="Usuario" />
+          </EntityType>
+        <EntityType Name="Visita">
+          <Key>
+            <PropertyRef Name="IdVisitado" />
+            <PropertyRef Name="IdVisitante" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="IdVisitado" Type="Int32" Nullable="false" />
+          <Property Name="IdVisitante" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="UsuarioVisitado" Relationship="LigoteaModel.FK_Visitados_Usuarios" FromRole="Visita" ToRole="Usuario" />
+          <NavigationProperty Name="UsuarioVisitante" Relationship="LigoteaModel.FK_Visitantes_Usuarios" FromRole="Visita" ToRole="Usuario" />
+          </EntityType>
+        <EntityType Name="Votacion">
+          <Key>
+            <PropertyRef Name="IdVotado" />
+            <PropertyRef Name="IdVotante" />
+          </Key>
+          <Property Name="IdVotado" Type="Int32" Nullable="false" />
+          <Property Name="IdVotante" Type="Int32" Nullable="false" />
+          <Property Name="Puntuacion" Type="Byte" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Usuario" Relationship="LigoteaModel.FK_Usuarios_Votado" FromRole="Votacion" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario1" Relationship="LigoteaModel.FK_Usuarios_Votante" FromRole="Votacion" ToRole="Usuario" />
+          </EntityType>
+        <EntityContainer Name="LigoteaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fotos" EntityType="Self.Foto" />
+          <EntitySet Name="Mensajes" EntityType="Self.Mensaje" />
+          <EntitySet Name="Visitas" EntityType="Self.Visita" />
+          <EntitySet Name="Votacions" EntityType="LigoteaModel.Votacion" />
+          <EntitySet Name="Usuarios" EntityType="LigoteaModel.Usuario" />
+          <AssociationSet Name="FK_Fotos_Usuarios" Association="LigoteaModel.FK_Fotos_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Foto" EntitySet="Fotos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioEnvia" Association="LigoteaModel.FK_UsuarioEnvia">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Mensaje" EntitySet="Mensajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioRecibe" Association="LigoteaModel.FK_UsuarioRecibe">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Mensaje" EntitySet="Mensajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Votado" Association="LigoteaModel.FK_Usuarios_Votado">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Votacion" EntitySet="Votacions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Votante" Association="LigoteaModel.FK_Usuarios_Votante">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Votacion" EntitySet="Votacions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visitados_Usuarios" Association="LigoteaModel.FK_Visitados_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Visita" EntitySet="Visitas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visitantes_Usuarios" Association="LigoteaModel.FK_Visitantes_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Visita" EntitySet="Visitas" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nick" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdRegion" Type="Int32" />
+          <Property Name="IdLocalidad" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="FechaAlta" Type="DateTime" Precision="7" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Genero" Type="Boolean" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" />
+          <Property Name="CampoNuevo" Type="Int32" />
+          <NavigationProperty Name="Fotos" Relationship="LigoteaModel.FK_Fotos_Usuarios" FromRole="Usuario" ToRole="Foto" />
+          <NavigationProperty Name="MensajesEnviados" Relationship="LigoteaModel.FK_UsuarioEnvia" FromRole="Usuario" ToRole="Mensaje" />
+          <NavigationProperty Name="MensajesRecibidos" Relationship="LigoteaModel.FK_UsuarioRecibe" FromRole="Usuario" ToRole="Mensaje" />
+          <NavigationProperty Name="Votaciones" Relationship="LigoteaModel.FK_Usuarios_Votado" FromRole="Usuario" ToRole="Votacion" />
+          <NavigationProperty Name="VotacionesRecibidas" Relationship="LigoteaModel.FK_Usuarios_Votante" FromRole="Usuario" ToRole="Votacion" />
+          <NavigationProperty Name="VisitasRecibidas" Relationship="LigoteaModel.FK_Visitados_Usuarios" FromRole="Usuario" ToRole="Visita" />
+          <NavigationProperty Name="VisitasRealizadas" Relationship="LigoteaModel.FK_Visitantes_Usuarios" FromRole="Usuario" ToRole="Visita" />
+        </EntityType>
+        <Association Name="FK_Fotos_Usuarios">
+          <End Type="LigoteaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LigoteaModel.Foto" Role="Foto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Foto">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioEnvia">
+          <End Type="LigoteaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LigoteaModel.Mensaje" Role="Mensaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Mensaje">
+              <PropertyRef Name="IdUsuarioEnvia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioRecibe">
+          <End Type="LigoteaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LigoteaModel.Mensaje" Role="Mensaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Mensaje">
+              <PropertyRef Name="IdUsuarioRecibe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Votado">
+          <End Type="LigoteaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LigoteaModel.Votacion" Role="Votacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Votacion">
+              <PropertyRef Name="IdVotado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Votante">
+          <End Type="LigoteaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LigoteaModel.Votacion" Role="Votacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Votacion">
+              <PropertyRef Name="IdVotante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visitados_Usuarios">
+          <End Type="LigoteaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LigoteaModel.Visita" Role="Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="IdVisitado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visitantes_Usuarios">
+          <End Type="LigoteaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LigoteaModel.Visita" Role="Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="IdVisitante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LigoteaModelStoreContainer" CdmEntityContainer="LigoteaEntities">
+          <EntitySetMapping Name="Fotos">
+            <EntityTypeMapping TypeName="LigoteaModel.Foto">
+              <MappingFragment StoreEntitySet="Fotos">
+                <ScalarProperty Name="IdFoto" ColumnName="IdFoto" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Texto" ColumnName="Texto" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mensajes">
+            <EntityTypeMapping TypeName="LigoteaModel.Mensaje">
+              <MappingFragment StoreEntitySet="Mensajes">
+                <ScalarProperty Name="IdUsuarioEnvia" ColumnName="IdUsuarioEnvia" />
+                <ScalarProperty Name="IdUsuarioRecibe" ColumnName="IdUsuarioRecibe" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Texto" ColumnName="Texto" />
+                <ScalarProperty Name="Leido" ColumnName="Leido" />
+                <ScalarProperty Name="Borrado" ColumnName="Borrado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visitas">
+            <EntityTypeMapping TypeName="LigoteaModel.Visita">
+              <MappingFragment StoreEntitySet="Visitas">
+                <ScalarProperty Name="IdVisitado" ColumnName="IdVisitado" />
+                <ScalarProperty Name="IdVisitante" ColumnName="IdVisitante" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Votacions">
+            <EntityTypeMapping TypeName="LigoteaModel.Votacion">
+              <MappingFragment StoreEntitySet="Votaciones">
+                <ScalarProperty Name="IdVotado" ColumnName="IdVotado" />
+                <ScalarProperty Name="IdVotante" ColumnName="IdVotante" />
+                <ScalarProperty Name="Puntuacion" ColumnName="Puntuacion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="LigoteaModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="CampoNuevo" ColumnName="CampoNuevo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdLocalidad" ColumnName="IdLocalidad" />
+                <ScalarProperty Name="IdRegion" ColumnName="IdRegion" />
+                <ScalarProperty Name="Nacimiento" ColumnName="Nacimiento" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Nick" ColumnName="Nick" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

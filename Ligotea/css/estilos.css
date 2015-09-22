@@ -1,0 +1,17 @@
+﻿header img { float: left; height:50px; }
+header ul { float: right}
+
+body {
+}
+
+.superfrase { font-size:30px; color:#0094ff; font-style:italic; font-weight:bold; }
+
+#recientes { border:solid 1px #f207d8; display:inline-block; }
+#recientes figure.item { float:left; width:90px } 
+#recientes figure.item img.foto { width:90px; height:140px; }
+#recientes figure.item figcaption { text-align:center;}
+
+.fecha { color:red; font-size:8px; }
+
+.mensajeyo { background-color:#fafba2 }
+.mensajeotro  { background-color:#c1f8ab }

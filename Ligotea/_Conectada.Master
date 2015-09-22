@@ -1,0 +1,55 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="_Conectada.master.cs" Inherits="Ligotea._Conectada" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="css/estilos.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">        
+        <header>
+            <asp:Image ID="imgLogo" runat="server" ImageUrl="~/img/alf.jpg" />
+            <asp:Literal ID="liSaludo" runat="server"></asp:Literal>
+            <ul>
+                <li>
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/main.aspx">Inicio</asp:HyperLink>
+                </li>
+                <li>
+            <asp:HyperLink ID="HyperLink2" runat="server">Buscador</asp:HyperLink>
+                </li>
+                <li>
+            <asp:HyperLink ID="HyperLink3" runat="server"
+                 NavigateUrl="~/visitas.aspx">Visitas</asp:HyperLink>
+                </li>
+                <li>
+            <asp:HyperLink ID="HyperLink5" runat="server"
+                 NavigateUrl="~/visitas2.aspx">Visitas 2</asp:HyperLink>
+                </li>
+                <li>
+            <asp:HyperLink ID="HyperLink6" runat="server"
+                 NavigateUrl="~/mensajes.aspx">Mensajes</asp:HyperLink>
+                </li>
+                <li>
+            <asp:HyperLink ID="HyperLink4" runat="server">Perfil</asp:HyperLink>
+                </li>
+                <li>
+            <asp:Button ID="btSalir" runat="server" Text="Salir" OnClick="btSalir_Click" />
+                </li>
+            </ul>
+        </header>
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+
+        </asp:ContentPlaceHolder>
+    </div>
+        <footer>
+            (c) Nuestra página de triunfos
+        </footer>
+    </form>
+</body>
+</html>

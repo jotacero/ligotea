@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2b3723c2337c4bffabc9124af48aa3d3" Name="Diagram1" ZoomLevel="131">
+        <EntityTypeShape EntityType="LigoteaModel.Foto" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LigoteaModel.Mensaje" Width="1.5" PointX="3.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LigoteaModel.Visita" Width="1.5" PointX="3.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LigoteaModel.Votacion" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LigoteaModel.Usuario" Width="1.75" PointX="0.75" PointY="4.625" />
+        <AssociationConnector Association="LigoteaModel.FK_Fotos_Usuarios" />
+        <AssociationConnector Association="LigoteaModel.FK_UsuarioEnvia" />
+        <AssociationConnector Association="LigoteaModel.FK_UsuarioRecibe" />
+        <AssociationConnector Association="LigoteaModel.FK_Usuarios_Votado" />
+        <AssociationConnector Association="LigoteaModel.FK_Usuarios_Votante" />
+        <AssociationConnector Association="LigoteaModel.FK_Visitados_Usuarios" />
+        <AssociationConnector Association="LigoteaModel.FK_Visitantes_Usuarios" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
