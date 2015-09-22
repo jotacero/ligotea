@@ -16,4 +16,6 @@
         </Columns>
     </asp:GridView>
 
+    <asp:GridView ID="gvMensajes2" runat="server"></asp:GridView>
+
 </asp:Content>

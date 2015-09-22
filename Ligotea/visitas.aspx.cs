@@ -23,7 +23,7 @@ namespace Ligotea
                 lvVisitas.DataSource = miUsuario
                     .VisitasRecibidas
                     .OrderByDescending(d => d.Fecha)
-                    .Select( d=>d.UsuarioVisitante )
+                    .Select( d => d.UsuarioVisitante )
                     .ToList();
 
                 //lvVisitas.DataBind();
